@@ -65,6 +65,13 @@
         button:hover {
             background: #1a5bb8;
         }
+        .whatsapp-button {
+            background: #25D366;
+            margin-top: 10px;
+        }
+        .whatsapp-button:hover {
+            background: #128C7E;
+        }
     </style>
 </head>
 <body>
@@ -76,6 +83,7 @@
         <p>Digite um link ou texto e gere seu QR Code</p>
         <input type="text" id="texto" placeholder="Digite um link ou texto...">
         <button onclick="gerarQRCode()">Gerar QR Code</button>
+        <button id="whatsappShare" class="whatsapp-button" style="display: none;" onclick="compartilharWhatsApp()">Compartilhar QR Code no WhatsApp</button>
     </div>
 
     <script>
@@ -87,12 +95,34 @@
                 alert("Digite um texto ou URL!");
                 return;
             }
-            new QRCode(qrDiv, {
+            // Gera o QR Code
+            let qrCode = new QRCode(qrDiv, {
                 text: texto,
                 width: 150,
                 height: 150,
                 correctLevel: QRCode.CorrectLevel.H
             });
+
+            // Exibe o botão de compartilhamento no WhatsApp
+            document.getElementById("whatsappShare").style.display = 'inline-block';
+        }
+
+        function compartilharWhatsApp() {
+            let qrCanvas = document.querySelector("#qrcode canvas");
+            if (!qrCanvas) {
+                alert("Não há QR Code para compartilhar!");
+                return;
+            }
+
+            // Converte o QR Code em base64
+            let qrCodeDataUrl = qrCanvas.toDataURL();
+
+            // Cria o link de compartilhamento no WhatsApp com a imagem
+            let mensagem = "Confira esse QR Code! " + qrCodeDataUrl;
+            let url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(mensagem);
+
+            // Abre o WhatsApp
+            window.open(url, "_blank");
         }
     </script>
 </body>
