@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Card</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #d6e2f0;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        .qr-container {
+            background: #2c7dfa;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+        }
+        h2 {
+            font-size: 18px;
+            color: #1f3251;
+            margin: 15px 0 5px;
+            font-weight: bold;
+        }
+        p {
+            font-size: 14px;
+            color: #7b879d;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #2c7dfa;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #1a5bb8;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="qr-container">
+            <div id="qrcode"></div>
+        </div>
+        <h2>Gerador de QR Code</h2>
+        <p>Digite um link ou texto e gere seu QR Code</p>
+        <input type="text" id="texto" placeholder="Digite um link ou texto...">
+        <button onclick="gerarQRCode()">Gerar QR Code</button>
+    </div>
+
+    <script>
+        function gerarQRCode() {
+            let qrDiv = document.getElementById("qrcode");
+            qrDiv.innerHTML = ""; // Limpa QR Code anterior
+            let texto = document.getElementById("texto").value;
+            if (texto.trim() === "") {
+                alert("Digite um texto ou URL!");
+                return;
+            }
+            new QRCode(qrDiv, {
+                text: texto,
+                width: 150,
+                height: 150,
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+    </script>
+</body>
+</html>
